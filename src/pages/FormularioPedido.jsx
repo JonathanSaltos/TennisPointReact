@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
 
 function Formulario() {
@@ -36,7 +37,18 @@ function Formulario() {
       fecha: new Date().toISOString(),
     };
 
- 
+    try {
+      await axios.post(
+        'https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/pedidos.json',
+        pedido
+      );
+      localStorage.removeItem('cart');
+      navigate('/gracias');
+    } catch (err) {
+      setError('Error al enviar el pedido. Inténtalo de nuevo.');
+    }
+  };
+
   return (
     <Container className="mt-4">
       <h2>Formulario de Pedido</h2>
@@ -84,6 +96,10 @@ function Formulario() {
             required
           />
         </Form.Group>
+
+        <Button variant="success" type="submit">
+          REALIZAR PEDIDO
+        </Button>
       </Form>
     </Container>
   );
