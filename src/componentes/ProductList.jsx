@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Product from './Product'; // Asegúrate de que la ruta sea correcta
-
+import Button from 'react-bootstrap/Button';
 function ProductList() {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState(() => {
@@ -75,13 +75,20 @@ function ProductList() {
             </div>
             <div className="text-end mt-4">
                 <h4>Total del pedido: {calcularTotal()} €</h4>
+                {Object.keys(cart).length > 0 && (
+                    <div className="d-flex justify-content-end mt-4">
+                        <Button
+                              variant="warning"
+                            onClick={() => window.location.href = '/confirmacionPedido'}
+                        >
+                            REALIZAR PEDIDO
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
 
     );
 }
-
-
-
 
 export default ProductList;

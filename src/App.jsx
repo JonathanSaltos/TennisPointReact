@@ -6,7 +6,6 @@ import Eslogan from './componentes/Eslogan.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AboutUs from './pages/AboutUs.jsx'; // ajusta la ruta según tu estructura
 import ContactUs from './pages/ContactUs';
-import Product from './componentes/Product.jsx';
 import Home from './pages/Home';
 
 function App() {
