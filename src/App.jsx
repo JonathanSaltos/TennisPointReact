@@ -16,7 +16,7 @@ function App() {
       <Header />
       <Eslogan />
       <Routes>
-        <Route path="/"element={<Home />}>  </Route>
+        <Route path="/" element={<Home />}>  </Route>
         <Route path="/aboutus" element={<AboutUs />} ></Route>
         <Route path="/contacto" element={<ContactUs />} ></Route>
       </Routes>

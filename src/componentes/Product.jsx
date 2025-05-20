@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 
-function Product({ product }) {
+function Product({ product, quantity, onAdd, onRemove }) {
     return (
         <div className="card m-3 shadow-sm h-100 d-flex flex-column" style={{ width: '18rem' }}>
             <img
@@ -15,8 +15,9 @@ function Product({ product }) {
                 <p className="card-text">{product.Descripción}</p>
                 <p className="card-text fw-bold">{product.Precio} €</p>
                 <div className="d-flex justify-content-between align-items-center">
-                    <Button variant="danger">-</Button>
-                    <Button variant="primary">+</Button>
+                    <Button variant="danger" onClick={onRemove}>-</Button>
+                    <p className="mx-2" >{quantity}</p>
+                    <Button variant="primary" onClick={onAdd}>+</Button>
                 </div>
             </div>
         </div>
