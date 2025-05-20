@@ -10,7 +10,7 @@ function Header() {
             <img src={logo} alt="Logo" className="img-fluid rounded" />
             <Nav className="container d-flex justify-content-between">
                 <Nav.Item>
-                    <Link to="/" className="text-white text-decoration-none">Inicio</Link>
+                    <Link to="/" className="text-white text-decoration-none">Home</Link>
                 </Nav.Item>
 
                 <Nav.Item>
