@@ -58,7 +58,7 @@ console.log(productosEnCarrito)
             <h4>Total: {calcularTotal()} €</h4>
             <Button
                 variant="warning"
-               onClick={() => navigate('/')}
+               onClick={() => navigate('/FormularioPedido')}
             >
                 CONTINUAR
             </Button>

@@ -8,6 +8,7 @@ import AboutUs from './pages/AboutUs.jsx'; // ajusta la ruta según tu estructur
 import ContactUs from './pages/ContactUs';
 import Home from './pages/Home';
 import Confirmacion from './pages/ConfirmacionPedido.jsx';
+import Formulario from './pages/FormularioPedido.jsx';
 function App() {
 
   return (
@@ -16,7 +17,8 @@ function App() {
       <Eslogan />
       <Routes>
         <Route path="/" element={<Home />}>  </Route>
-        <Route path="/confirmacionPedido" element={<Confirmacion/>}>  </Route>
+        <Route path="/ConfirmacionPedido" element={<Confirmacion />}>  </Route>
+        <Route path="/FormularioPedido" element={<Formulario />}></Route>
         <Route path="/aboutus" element={<AboutUs />} ></Route>
         <Route path="/contacto" element={<ContactUs />} ></Route>
       </Routes>
