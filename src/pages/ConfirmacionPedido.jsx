@@ -35,7 +35,33 @@ console.log(productosEnCarrito)
     return (
         <div className="container mt-4">
             <h2>Confirmación de Pedido</h2>
-          
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {productosEnCarrito.map(p => (
+                        <tr key={p.id}>
+                            <td>{p.Nombre}</td>
+                            <td>{cart[p.id]}</td>
+                            <td>{p.Precio} €</td>
+                            <td>{(cart[p.id] * parseFloat(p.Precio)).toFixed(2)} €</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <h4>Total: {calcularTotal()} €</h4>
+            <Button
+                variant="warning"
+               onClick={() => navigate('/')}
+            >
+                CONTINUAR
+            </Button>
         </div>
     );
 }
