@@ -50,7 +50,13 @@ function ProductList() {
         });
     };
 
-   
+    const calcularTotal = () => {
+        return products.reduce((total, p) => {
+            const cantidad = cart[p.id] || 0;
+            return total + cantidad * parseFloat(p.Precio);
+        }, 0).toFixed(2);
+    };
+
 
     return (
 
@@ -67,7 +73,9 @@ function ProductList() {
                     </div>
                 ))}
             </div>
-            
+            <div className="text-end mt-4">
+                <h4>Total del pedido: {calcularTotal()} €</h4>
+            </div>
         </div>
 
     );
