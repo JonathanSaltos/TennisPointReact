@@ -13,6 +13,9 @@ function Header() {
                     <Link to="/" className="text-white text-decoration-none">Home</Link>
                 </Nav.Item>
                 <Nav.Item>
+                    <Link to="/pedidos" className="text-white text-decoration-none">Pedidos</Link>
+                </Nav.Item>
+                <Nav.Item>
                     <Link to="/aboutus" className="text-white me-3">About Us</Link>
                 </Nav.Item>
                 <Nav.Item>
