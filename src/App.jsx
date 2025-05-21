@@ -11,6 +11,7 @@ import Confirmacion from './pages/ConfirmacionPedido.jsx';
 import Formulario from './pages/FormularioPedido.jsx';
 import Gracias from './pages/Gracias';
 import Pedidos from './pages/Pedidos';
+import PedidoDetalle from './pages/PedidoDetalle';
 function App() {
 
   return (
@@ -21,8 +22,9 @@ function App() {
         <Route path="/" element={<Home />}>  </Route>
         <Route path="/ConfirmacionPedido" element={<Confirmacion />}>  </Route>
         <Route path="/FormularioPedido" element={<Formulario />}></Route>
-        <Route path="/pedidos" element={<Pedidos />} />
-        <Route path="/gracias" element={<Gracias />} />
+        <Route path="/pedidos" element={<Pedidos />} ></Route>
+        <Route path="/pedido/:id" element={<PedidoDetalle />}></Route>
+        <Route path="/gracias" element={<Gracias />} ></Route>
         <Route path="/aboutus" element={<AboutUs />} ></Route>
         <Route path="/contacto" element={<ContactUs />} ></Route>
       </Routes>
