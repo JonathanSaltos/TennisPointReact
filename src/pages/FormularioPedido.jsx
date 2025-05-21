@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Form, Button, Alert, Container } from 'react-bootstrap';
@@ -11,7 +11,18 @@ function Formulario() {
     email: ''
   });
   const [error, setError] = useState('');
+  const [productos, setProductos] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios.get('https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/productos.json')
+      .then((res) => {
+        const data = res.data || {};
+        const productosArray = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+        setProductos(productosArray);
+        localStorage.setItem('productos', JSON.stringify(data)); // Guardamos los productos con precios
+      });
+  }, []);
 
   const handleChange = (e) => {
     setCliente({ ...cliente, [e.target.name]: e.target.value });
@@ -26,15 +37,28 @@ function Formulario() {
     }
 
     const cart = JSON.parse(localStorage.getItem('cart')) || {};
+    const productosData = JSON.parse(localStorage.getItem('productos')) || {};
+
     if (Object.keys(cart).length === 0) {
       setError('El carrito está vacío');
       return;
     }
 
+    // Calcular total
+    const total = Object.entries(cart).reduce((acc, [id, cantidad]) => {
+      const precio = parseFloat(productosData[id]?.Precio || 0);
+      return acc + cantidad * precio;
+    }, 0).toFixed(2);
+
+    // Estructura que sea compatible con Pedidos.jsx y PedidoDetalle.jsx
     const pedido = {
-      cliente,
-      carrito: cart,
-      fecha: new Date().toISOString(),
+      nombre: cliente.nombre,
+      direccion: cliente.direccion,
+      email: cliente.email,
+      telefono: cliente.telefono,
+      items: cart,
+      total,
+      fecha: new Date().toISOString()
     };
 
     try {
@@ -43,6 +67,7 @@ function Formulario() {
         pedido
       );
       localStorage.removeItem('cart');
+      localStorage.removeItem('productos');
       navigate('/gracias');
     } catch (err) {
       setError('Error al enviar el pedido. Inténtalo de nuevo.');
