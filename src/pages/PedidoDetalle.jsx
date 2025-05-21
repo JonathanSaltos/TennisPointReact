@@ -25,7 +25,16 @@ function PedidoDetalle() {
       });
   }, [id]);
 
-
+  const borrarPedido = () => {
+    if (window.confirm("¿Seguro que deseas eliminar este pedido?")) {
+      axios
+        .delete(`https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/pedidos/${id}.json`)
+        .then(() => {
+          alert("Pedido eliminado");
+          navigate("/pedidos");
+        });
+    }
+  };
 
   if (!pedido) return <p className="text-center mt-5">Cargando pedido...</p>;
 
@@ -74,6 +83,9 @@ function PedidoDetalle() {
 
       <h5>Total: {calcularTotal()} €</h5>
 
+      <Button variant="danger" onClick={borrarPedido} className="mt-3">
+        Eliminar pedido
+      </Button>
     </div>
   );
 }
