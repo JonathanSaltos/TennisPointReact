@@ -9,9 +9,10 @@ import ContactUs from './pages/ContactUs';
 import Home from './pages/Home';
 import Confirmacion from './pages/ConfirmacionPedido.jsx';
 import Formulario from './pages/FormularioPedido.jsx';
-import Gracias from './pages/Gracias';
-import Pedidos from './pages/Pedidos';
-import PedidoDetalle from './pages/PedidoDetalle';
+import Gracias from './pages/Gracias.jsx';
+import Pedidos from './pages/Pedidos.jsx';
+import PedidoDetalle from './pages/PedidoDetalle.jsx';
+import Register from './pages/Register.jsx'; 
 function App() {
 
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/pedidos" element={<Pedidos />} ></Route>
         <Route path="/pedido/:id" element={<PedidoDetalle />}></Route>
         <Route path="/gracias" element={<Gracias />} ></Route>
+        <Route path="/registro" element={<Register />}> </Route>
         <Route path="/aboutus" element={<AboutUs />} ></Route>
         <Route path="/contacto" element={<ContactUs />} ></Route>
       </Routes>
