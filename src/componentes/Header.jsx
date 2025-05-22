@@ -1,7 +1,7 @@
 import './header.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "./logo.png";
-import { Link } from 'react-router'; 
+import { Link } from 'react-router';
 import { Nav } from 'react-bootstrap';
 
 function Header() {
@@ -28,14 +28,18 @@ function Header() {
                 </div>
 
                 <div className="d-flex gap-3 align-items-center">
-                   
+                    {email ? (
+                        <span className="text-white">Bienvenido, <strong>{email}</strong></span>
+                    ) : (
+                        <>
                             <Nav.Item>
                                 <Link className="text-white text-decoration-none" to="/registro">Registrarse</Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link className="text-white text-decoration-none" to="/login">Login</Link>
                             </Nav.Item>
-
+                        </>
+                    )}
                 </div>
             </Nav>
         </div>
@@ -43,3 +47,4 @@ function Header() {
 }
 
 export default Header;
+
