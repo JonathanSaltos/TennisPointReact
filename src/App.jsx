@@ -12,7 +12,9 @@ import Formulario from './pages/FormularioPedido.jsx';
 import Gracias from './pages/Gracias.jsx';
 import Pedidos from './pages/Pedidos.jsx';
 import PedidoDetalle from './pages/PedidoDetalle.jsx';
-import Register from './pages/Register.jsx'; 
+import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
+
 function App() {
 
   return (
@@ -27,6 +29,7 @@ function App() {
         <Route path="/pedido/:id" element={<PedidoDetalle />}></Route>
         <Route path="/gracias" element={<Gracias />} ></Route>
         <Route path="/registro" element={<Register />}> </Route>
+        <Route path="/login" element={<Login />}> </Route>
         <Route path="/aboutus" element={<AboutUs />} ></Route>
         <Route path="/contacto" element={<ContactUs />} ></Route>
       </Routes>

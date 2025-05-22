@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import { Nav } from 'react-bootstrap';
 
 function Header() {
+    const email = localStorage.getItem('email'); // obtener el email guardado
+
     return (
         <div className='header'>
             <img src={logo} alt="Logo" className="img-fluid rounded" />
@@ -26,10 +28,14 @@ function Header() {
                 </div>
 
                 <div className="d-flex gap-3 align-items-center">
-                  
+                   
                             <Nav.Item>
                                 <Link className="text-white text-decoration-none" to="/registro">Registrarse</Link>
                             </Nav.Item>
+                            <Nav.Item>
+                                <Link className="text-white text-decoration-none" to="/login">Login</Link>
+                            </Nav.Item>
+
                 </div>
             </Nav>
         </div>
