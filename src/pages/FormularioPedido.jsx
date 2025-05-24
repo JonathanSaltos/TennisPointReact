@@ -38,19 +38,24 @@ function Formulario() {
 
     const cart = JSON.parse(localStorage.getItem('cart')) || {};
     const productosData = JSON.parse(localStorage.getItem('productos')) || {};
+    const uid = localStorage.getItem('uid');
+    const token = localStorage.getItem('token');
+
+    if (!uid || !token) {
+      setError('No has iniciado sesión. Por favor inicia sesión para realizar un pedido.');
+      return;
+    }
 
     if (Object.keys(cart).length === 0) {
       setError('El carrito está vacío');
       return;
     }
 
-    // Calcular total
     const total = Object.entries(cart).reduce((acc, [id, cantidad]) => {
       const precio = parseFloat(productosData[id]?.Precio || 0);
       return acc + cantidad * precio;
     }, 0).toFixed(2);
 
-    // Estructura que sea compatible con Pedidos.jsx y PedidoDetalle.jsx
     const pedido = {
       nombre: cliente.nombre,
       direccion: cliente.direccion,
@@ -58,12 +63,13 @@ function Formulario() {
       telefono: cliente.telefono,
       items: cart,
       total,
-      fecha: new Date().toISOString()
+      fecha: new Date().toISOString(),
+      userId: uid
     };
 
     try {
       await axios.post(
-        'https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/pedidos.json',
+        `https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/pedidos.json?auth=${token}`,
         pedido
       );
       localStorage.removeItem('cart');
