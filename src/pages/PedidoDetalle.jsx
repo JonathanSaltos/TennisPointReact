@@ -17,7 +17,7 @@ function PedidoDetalle() {
         setPedido(response.data);
       });
 
-    // Obtener productos (con nombre y precio)
+    // Obtener productos
     axios
       .get(`https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/productos.json`)
       .then((res) => {
@@ -58,11 +58,13 @@ function PedidoDetalle() {
       <p><strong>Email:</strong> {pedido.email}</p>
       <p><strong>Dirección:</strong> {pedido.direccion}</p>
       <p><strong>Fecha:</strong> {new Date(pedido.fecha).toLocaleString()}</p>
+      <p><strong>Método de pago:</strong> {pedido.metodoPago || 'No especificado'}</p>
 
       <h5 className="mt-4">Productos:</h5>
       <table className="table">
         <thead>
           <tr>
+            <th></th>
             <th>Producto</th>
             <th>Cantidad</th>
             <th>Precio unidad</th>
@@ -72,6 +74,13 @@ function PedidoDetalle() {
         <tbody>
           {Object.entries(items).map(([id, cantidad]) => (
             <tr key={id}>
+              <td>
+                {productos[id]?.imagen ? (
+                  <img src={productos[id].imagen} alt={productos[id]?.Nombre} width="60" />
+                ) : (
+                  'Sin imagen'
+                )}
+              </td>
               <td>{productos[id]?.Nombre || id}</td>
               <td>{cantidad}</td>
               <td>{productos[id]?.Precio || "0.00"} €</td>
@@ -91,4 +100,3 @@ function PedidoDetalle() {
 }
 
 export default PedidoDetalle;
-
