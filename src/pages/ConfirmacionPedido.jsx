@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+import { FaShoppingCart } from 'react-icons/fa'; // Importar icono
+
 function Confirmacion() {
     const [cart, setCart] = useState({});
     const [products, setProducts] = useState([]);
@@ -31,13 +33,17 @@ function Confirmacion() {
     };
 
     const productosEnCarrito = products.filter(p => cart[p.id] > 0);
-console.log(productosEnCarrito)
+
     return (
         <div className="container mt-4">
-            <h2>Confirmación de Pedido</h2>
+            <h2> 
+                Confirmación de Pedido
+                <FaShoppingCart className="me-2 text-success" />
+            </h2>
             <table className="table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio Unidad</th>
@@ -47,6 +53,13 @@ console.log(productosEnCarrito)
                 <tbody>
                     {productosEnCarrito.map(p => (
                         <tr key={p.id}>
+                            <td>
+                                {p.imagen ? (
+                                    <img src={p.imagen} alt={p.Nombre} width="60" />
+                                ) : (
+                                    'Sin imagen'
+                                )}
+                            </td>
                             <td>{p.Nombre}</td>
                             <td>{cart[p.id]}</td>
                             <td>{p.Precio} €</td>
@@ -58,7 +71,7 @@ console.log(productosEnCarrito)
             <h4>Total: {calcularTotal()} €</h4>
             <Button
                 variant="warning"
-               onClick={() => navigate('/FormularioPedido')}
+                onClick={() => navigate('/FormularioPedido')}
             >
                 CONTINUAR
             </Button>
