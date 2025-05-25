@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import { FaShoppingCart } from 'react-icons/fa'; // Importar icono
+import { FaShoppingCart, FaTrash } from 'react-icons/fa'; // Iconos
 
 function Confirmacion() {
     const [cart, setCart] = useState({});
@@ -32,13 +32,21 @@ function Confirmacion() {
         }, 0).toFixed(2);
     };
 
+    const eliminarProducto = (id) => {
+        if (window.confirm('¿Estás seguro de eliminar este producto del pedido?')) {
+            const nuevoCart = { ...cart };
+            delete nuevoCart[id];
+            setCart(nuevoCart);
+            localStorage.setItem('cart', JSON.stringify(nuevoCart));
+        }
+    };
+
     const productosEnCarrito = products.filter(p => cart[p.id] > 0);
 
     return (
         <div className="container mt-4">
-            <h2> 
-                Confirmación de Pedido
-                <FaShoppingCart className="me-2 text-success" />
+            <h2>
+                Confirmación de Pedido <FaShoppingCart className="me-2 text-success" />
             </h2>
             <table className="table">
                 <thead>
@@ -48,6 +56,7 @@ function Confirmacion() {
                         <th>Cantidad</th>
                         <th>Precio Unidad</th>
                         <th>Subtotal</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +73,15 @@ function Confirmacion() {
                             <td>{cart[p.id]}</td>
                             <td>{p.Precio} €</td>
                             <td>{(cart[p.id] * parseFloat(p.Precio)).toFixed(2)} €</td>
+                            <td>
+                                <Button
+                                    variant="danger"
+                                    size="sm"
+                                    onClick={() => eliminarProducto(p.id)}
+                                >
+                                    <FaTrash />
+                                </Button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

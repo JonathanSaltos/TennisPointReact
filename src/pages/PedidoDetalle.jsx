@@ -10,14 +10,12 @@ function PedidoDetalle() {
   const [productos, setProductos] = useState({});
 
   useEffect(() => {
-    // Obtener datos del pedido
     axios
       .get(`https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/pedidos/${id}.json`)
       .then((response) => {
         setPedido(response.data);
       });
 
-    // Obtener productos
     axios
       .get(`https://dsm-react-webapp-default-rtdb.europe-west1.firebasedatabase.app/productos.json`)
       .then((res) => {
@@ -39,16 +37,20 @@ function PedidoDetalle() {
   if (!pedido) return <p className="text-center mt-5">Cargando pedido...</p>;
 
   const items = pedido.items || {};
+
   const calcularSubtotal = (id, cantidad) => {
     const precio = parseFloat(productos[id]?.Precio || 0);
     return (cantidad * precio).toFixed(2);
   };
 
   const calcularTotal = () => {
-    return Object.entries(items).reduce((total, [id, cantidad]) => {
-      const precio = parseFloat(productos[id]?.Precio || 0);
-      return total + cantidad * precio;
-    }, 0).toFixed(2);
+    return Object.entries(items)
+      .filter(([_, cantidad]) => cantidad > 0)
+      .reduce((total, [id, cantidad]) => {
+        const precio = parseFloat(productos[id]?.Precio || 0);
+        return total + cantidad * precio;
+      }, 0)
+      .toFixed(2);
   };
 
   return (
@@ -72,20 +74,20 @@ function PedidoDetalle() {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(items).map(([id, cantidad]) => (
-            <tr key={id}>
-              <td>
-                {productos[id]?.imagen ? (
-                  <img src={productos[id].imagen} alt={productos[id]?.Nombre} width="60" />
-                ) : (
-                  'Sin imagen'
-                )}
-              </td>
-              <td>{productos[id]?.Nombre || id}</td>
-              <td>{cantidad}</td>
-              <td>{productos[id]?.Precio || "0.00"} €</td>
-              <td>{calcularSubtotal(id, cantidad)} €</td>
-            </tr>
+          {Object.entries(items)
+            .filter(([_, cantidad]) => cantidad > 0)
+            .map(([id, cantidad]) => (
+              <tr key={id}>
+                <td>
+                  {productos[id]?.imagen ? (
+                    <img src={productos[id].imagen} alt={productos[id]?.Nombre} width="60" />
+                  ) : 'Sin imagen'}
+                </td>
+                <td>{productos[id]?.Nombre || id}</td>
+                <td>{cantidad}</td>
+                <td>{productos[id]?.Precio || "0.00"} €</td>
+                <td>{calcularSubtotal(id, cantidad)} €</td>
+              </tr>
           ))}
         </tbody>
       </table>
