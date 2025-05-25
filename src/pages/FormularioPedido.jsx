@@ -10,6 +10,12 @@ function Formulario() {
     telefono: '',
     email: ''
   });
+  const [metodoPago, setMetodoPago] = useState('Tarjeta de crédito');
+  const [tarjeta, setTarjeta] = useState({
+    numero: '',
+    vencimiento: '',
+    cvv: ''
+  });
   const [error, setError] = useState('');
   const [productos, setProductos] = useState([]);
   const navigate = useNavigate();
@@ -20,12 +26,16 @@ function Formulario() {
         const data = res.data || {};
         const productosArray = Object.entries(data).map(([id, val]) => ({ id, ...val }));
         setProductos(productosArray);
-        localStorage.setItem('productos', JSON.stringify(data)); // Guardamos los productos con precios
+        localStorage.setItem('productos', JSON.stringify(data));
       });
   }, []);
 
   const handleChange = (e) => {
     setCliente({ ...cliente, [e.target.name]: e.target.value });
+  };
+
+  const handleTarjetaChange = (e) => {
+    setTarjeta({ ...tarjeta, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -51,6 +61,21 @@ function Formulario() {
       return;
     }
 
+    if (metodoPago === "Tarjeta de crédito") {
+      if (!tarjeta.numero || !tarjeta.vencimiento || !tarjeta.cvv) {
+        setError('Por favor completa todos los campos de la tarjeta');
+        return;
+      }
+      if (!/^\d{16}$/.test(tarjeta.numero)) {
+        setError('El número de tarjeta debe tener 16 dígitos');
+        return;
+      }
+      if (!/^\d{3}$/.test(tarjeta.cvv)) {
+        setError('El CVV debe tener 3 dígitos');
+        return;
+      }
+    }
+
     const total = Object.entries(cart).reduce((acc, [id, cantidad]) => {
       const precio = parseFloat(productosData[id]?.Precio || 0);
       return acc + cantidad * precio;
@@ -64,7 +89,9 @@ function Formulario() {
       items: cart,
       total,
       fecha: new Date().toISOString(),
-      userId: uid
+      userId: uid,
+      metodoPago,
+      pagoDetalles: metodoPago === "Tarjeta de crédito" ? "Pago con tarjeta ingresado" : ""
     };
 
     try {
@@ -127,6 +154,53 @@ function Formulario() {
             required
           />
         </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formMetodoPago">
+          <Form.Label>Método de pago</Form.Label>
+          <Form.Select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
+            <option>Tarjeta de crédito</option>
+            <option>Transferencia bancaria</option>
+            <option>Pago contra entrega</option>
+          </Form.Select>
+        </Form.Group>
+
+        {metodoPago === "Tarjeta de crédito" && (
+          <>
+            <Form.Group className="mb-3" controlId="formNumeroTarjeta">
+              <Form.Label>Número de tarjeta</Form.Label>
+              <Form.Control
+                type="text"
+                name="numero"
+                value={tarjeta.numero}
+                onChange={handleTarjetaChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formVencimiento">
+              <Form.Label>Fecha de vencimiento</Form.Label>
+              <Form.Control
+                type="text"
+                name="vencimiento"
+                value={tarjeta.vencimiento}
+                onChange={handleTarjetaChange}
+                placeholder="MM/AA"
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formCVV">
+              <Form.Label>CVV</Form.Label>
+              <Form.Control
+                type="text"
+                name="cvv"
+                value={tarjeta.cvv}
+                onChange={handleTarjetaChange}
+                required
+              />
+            </Form.Group>
+          </>
+        )}
 
         <Button variant="success" type="submit">
           REALIZAR PEDIDO
